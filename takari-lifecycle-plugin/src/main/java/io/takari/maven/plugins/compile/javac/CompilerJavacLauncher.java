@@ -28,6 +28,8 @@ import io.takari.maven.plugins.compile.ProjectClasspathDigester;
 import io.takari.maven.plugins.compile.javac.CompilerJavacForked.CompilerConfiguration;
 import io.takari.maven.plugins.compile.javac.CompilerJavacForked.CompilerOutput;
 import io.takari.maven.plugins.compile.javac.CompilerJavacForked.CompilerOutputProcessor;
+import org.eclipse.jdt.core.compiler.CategorizedProblem;
+import org.eclipse.jdt.internal.compiler.problem.DefaultProblem;
 
 @Named(CompilerJavacLauncher.ID)
 public class CompilerJavacLauncher extends AbstractCompilerJavac {
@@ -131,7 +133,7 @@ public class CompilerJavacLauncher extends AbstractCompilerJavac {
           }
           if (resource != null) {
             if (isShowWarnings() || kind != MessageSeverity.WARNING) {
-              resource.addMessage(line, column, message, kind, null);
+              addMessageToResource(resource, line, column, message, kind);
             }
           } else {
             log.warn("Unexpected java resource {}", file);
@@ -144,6 +146,14 @@ public class CompilerJavacLauncher extends AbstractCompilerJavac {
         log.warn(message);
       }
     });
+  }
+
+  private void addMessageToResource(Resource<File> resource, int line, int column, String message, MessageSeverity kind){
+    if (getFailOnError()){
+      resource.addMessage(line, column, message, kind, null);
+    }else{
+      resource.addMessage(line, column, "[ERROR]"+message, MessageSeverity.WARNING, null);
+    }
   }
 
   public void setBasedir(File basedir) {

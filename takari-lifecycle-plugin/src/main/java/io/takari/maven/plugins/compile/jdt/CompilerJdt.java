@@ -899,8 +899,7 @@ public class CompilerJdt extends AbstractCompiler implements ICompilerRequestor 
     if (result.hasProblems()) {
       for (CategorizedProblem problem : result.getProblems()) {
         if (problem.isError() || isShowWarnings()) {
-          MessageSeverity severity = problem.isError() ? MessageSeverity.ERROR : MessageSeverity.WARNING;
-          input.addMessage(problem.getSourceLineNumber(), ((DefaultProblem) problem).column, problem.getMessage(), severity, null /* cause */);
+          addInputMessage( input, problem);
         }
       }
     }
@@ -923,6 +922,16 @@ public class CompilerJdt extends AbstractCompiler implements ICompilerRequestor 
       e.printStackTrace();
     }
     // XXX double check affected sources are recompiled when this source has errors
+  }
+
+  private void addInputMessage( Resource<File> input, CategorizedProblem problem){
+    MessageSeverity severity = (problem.isError() && getFailOnError()) ? MessageSeverity.ERROR : MessageSeverity.WARNING;
+    input.addMessage(problem.getSourceLineNumber(),
+                     ((DefaultProblem) problem).column,
+                     getFailOnError() ? problem.getMessage() : "[ERROR] "+problem.getMessage(),
+                     severity,
+                     null );
+
   }
 
   private boolean isProcOnly() {

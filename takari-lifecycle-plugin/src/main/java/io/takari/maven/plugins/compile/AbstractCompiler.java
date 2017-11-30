@@ -55,6 +55,12 @@ public abstract class AbstractCompiler {
 
   private boolean showWarnings;
 
+  private Boolean failOnError = true;
+
+  protected Boolean getFailOnError(){ return failOnError; }
+
+  protected void setFailOnError(Boolean failOnError){ this.failOnError = failOnError; }
+
   private AccessRulesViolation transitiveDependencyReference;
 
   private AccessRulesViolation privatePackageReference;
