@@ -142,11 +142,7 @@ public class CompilerJavac extends AbstractCompilerJavac {
     MessageSeverity severity;
     switch (kind) {
       case ERROR:
-        /*if(!getFailOnError()){
-          severity = MessageSeverity.WARNING;
-        }else{*/
-          severity = MessageSeverity.ERROR;
-        //}
+        severity = MessageSeverity.ERROR;
         break;
       case NOTE:
         severity = MessageSeverity.INFO;
