@@ -377,6 +377,10 @@ public class CompileTest extends AbstractCompileTest {
          Assert.assertTrue(e.getMessage().contains("Error.java:[5:13] Strin cannot be resolved to a type"));
        }else if(compilerId.equals("javac")){
          Assert.assertTrue(e.getMessage().contains("src/main/java/basic/Error.java:[5:13] cannot find symbol"));
+       }else if(compilerId.equals("forked-javac")){
+         Assert.assertTrue(e.getMessage().contains("src/main/java/basic/Error.java:[5:13] cannot find symbol"));
+       }else{
+         Assert.fail();
        }
     }
   }

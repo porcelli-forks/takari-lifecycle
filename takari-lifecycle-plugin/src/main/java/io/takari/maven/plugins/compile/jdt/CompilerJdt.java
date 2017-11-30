@@ -924,7 +924,7 @@ public class CompilerJdt extends AbstractCompiler implements ICompilerRequestor 
     }
     // XXX double check affected sources are recompiled when this source has errors
   }
-  
+
   private boolean isProcOnly() {
     return getProc() == Proc.only;
   }
