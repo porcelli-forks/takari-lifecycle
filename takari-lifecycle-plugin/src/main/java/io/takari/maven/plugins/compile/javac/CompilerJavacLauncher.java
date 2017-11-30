@@ -28,6 +28,8 @@ import io.takari.maven.plugins.compile.ProjectClasspathDigester;
 import io.takari.maven.plugins.compile.javac.CompilerJavacForked.CompilerConfiguration;
 import io.takari.maven.plugins.compile.javac.CompilerJavacForked.CompilerOutput;
 import io.takari.maven.plugins.compile.javac.CompilerJavacForked.CompilerOutputProcessor;
+import org.eclipse.jdt.core.compiler.CategorizedProblem;
+import org.eclipse.jdt.internal.compiler.problem.DefaultProblem;
 
 @Named(CompilerJavacLauncher.ID)
 public class CompilerJavacLauncher extends AbstractCompilerJavac {
@@ -131,7 +133,7 @@ public class CompilerJavacLauncher extends AbstractCompilerJavac {
           }
           if (resource != null) {
             if (isShowWarnings() || kind != MessageSeverity.WARNING) {
-              resource.addMessage(line, column, message, kind, null);
+              resource.addMessage(line, column, message, getFailOnError() ? kind : MessageSeverity.WARNING, null);
             }
           } else {
             log.warn("Unexpected java resource {}", file);
