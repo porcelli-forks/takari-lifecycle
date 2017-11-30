@@ -133,7 +133,7 @@ public class CompilerJavacLauncher extends AbstractCompilerJavac {
           }
           if (resource != null) {
             if (isShowWarnings() || kind != MessageSeverity.WARNING) {
-              addMessageToResource(resource, line, column, message, kind);
+              resource.addMessage(line, column, message, getFailOnError() ? kind : MessageSeverity.WARNING, null);
             }
           } else {
             log.warn("Unexpected java resource {}", file);
@@ -146,14 +146,6 @@ public class CompilerJavacLauncher extends AbstractCompilerJavac {
         log.warn(message);
       }
     });
-  }
-
-  private void addMessageToResource(Resource<File> resource, int line, int column, String message, MessageSeverity kind){
-    if (getFailOnError()){
-      resource.addMessage(line, column, message, kind, null);
-    }else{
-      resource.addMessage(line, column, "[ERROR]"+message, MessageSeverity.WARNING, null);
-    }
   }
 
   public void setBasedir(File basedir) {

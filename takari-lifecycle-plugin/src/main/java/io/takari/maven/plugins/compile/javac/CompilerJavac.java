@@ -109,7 +109,7 @@ public class CompilerJavac extends AbstractCompilerJavac {
               resource = outputs.get(file);
             }
             if (resource != null) {
-              addMessageToResource(resource, (int) diagnostic.getLineNumber(), (int) diagnostic.getColumnNumber(), message, severity);
+              resource.addMessage((int) diagnostic.getLineNumber(), (int) diagnostic.getColumnNumber(), message, getFailOnError() ? severity : MessageSeverity.WARNING, null);
             } else {
               log.warn("Unexpected java {} resource {}", source.getKind(), source.toUri().toASCIIString());
             }
@@ -120,14 +120,6 @@ public class CompilerJavac extends AbstractCompilerJavac {
           context.addPomMessage(message, severity, null);
         }
       }
-    }
-  }
-
-  private void addMessageToResource(Resource<File> resource, int line, int column, String message, MessageSeverity kind){
-    if(getFailOnError()) {
-      resource.addMessage(line, column, message, kind, null);
-    }else{
-      resource.addMessage(line, column, "[ERROR]"+message, MessageSeverity.WARNING, null);
     }
   }
 

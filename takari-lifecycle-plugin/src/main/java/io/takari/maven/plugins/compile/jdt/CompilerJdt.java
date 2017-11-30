@@ -928,7 +928,7 @@ public class CompilerJdt extends AbstractCompiler implements ICompilerRequestor 
     MessageSeverity severity = (problem.isError() && getFailOnError()) ? MessageSeverity.ERROR : MessageSeverity.WARNING;
     input.addMessage(problem.getSourceLineNumber(),
                      ((DefaultProblem) problem).column,
-                     getFailOnError() ? problem.getMessage() : "[ERROR] "+problem.getMessage(),
+                     problem.getMessage(),
                      severity,
                      null );
 
